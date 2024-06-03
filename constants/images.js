@@ -1,13 +1,21 @@
-import logo from "../assets/logo.png";
-import bouncer from "../assets/bouncer.png";
-import yorker from "../assets/yorker.png";
-import slow from "../assets/slow.png";
-import fast from "../assets/fast.png";
-import swing from "../assets/swing.png";
-import random from "../assets/random.png";
-import beginner from "../assets/beginner.png";
-import pro from "../assets/pro.png";
+import logo from "../assets/images/logo.png";
+import bouncer from "../assets/images/bouncer.png";
+import yorker from "../assets/images/yorker.png";
+import slow from "../assets/images/slow.png";
+import fast from "../assets/images/fast.png";
+import swing from "../assets/images/swing.png";
+import random from "../assets/images/random.png";
+import beginner from "../assets/images/beginner.png";
+import pro from "../assets/images/pro.png";
 
 export default {
   logo,
+  bouncer,
+  yorker,
+  slow,
+  fast,
+  swing,
+  random,
+  beginner,
+  pro,
 };
