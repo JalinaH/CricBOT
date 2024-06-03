@@ -2,6 +2,7 @@ import { Link } from "expo-router";
 import {  Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "../constants/images";
+import CustomButton from "../components/CustomButton";
 
 export default function Page() {
   return (
@@ -26,6 +27,8 @@ export default function Page() {
             level. Ready to get started?
           </Text>
         </View>
+
+        <CustomButton />
       </View>
     </SafeAreaView>
   );
