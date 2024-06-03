@@ -3,6 +3,7 @@ import {  Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "../constants/images";
 import CustomButton from "../components/CustomButton";
+import icons from "../constants/icons";
 
 export default function Page() {
   return (
