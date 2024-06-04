@@ -1,9 +1,9 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import {  Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "../constants/images";
 import CustomButton from "../components/CustomButton";
-import icons from "../constants/icons";
+import { StatusBar } from "expo-status-bar";
 
 export default function Page() {
   return (
@@ -29,8 +29,14 @@ export default function Page() {
           </Text>
         </View>
 
-        <CustomButton />
+        <CustomButton
+          title="Continue with Email"
+          handlePress={() => router.push("/sign-in")}
+          containerStyles="mt-[40px] w-[80%]"
+        />
       </View>
+
+      <StatusBar style="light" backgroundColor="#1C2120" />
     </SafeAreaView>
   );
 }

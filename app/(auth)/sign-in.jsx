@@ -3,8 +3,9 @@ import React from 'react'
 
 const Signin = () => {
   return (
-    <View>
+    <View className="m-auto">
       <Text>Signin</Text>
+
     </View>
   )
 }
