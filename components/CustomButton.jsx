@@ -7,7 +7,7 @@ const CustomButton = ({ title, handlePress, containerStyles }) => {
       className={`bg-primary rounded-xl min-h-[62px] flex flex-row justify-center items-center mx-auto ${containerStyles}`}
       onPress={handlePress}
     >
-      <Text className="font-psemibold text-lg text-gray-200">{title}</Text>
+      <Text className="font-psemibold text-lg text-white">{title}</Text>
     </TouchableOpacity>
   );
 };
