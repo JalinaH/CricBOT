@@ -18,7 +18,7 @@ const Signin = () => {
       </View>
 
       <View className="bg-white h-[80%] rounded-3xl mt-5">
-        <Text className="font-pbold text-3xl text-center mt-7">
+        <Text className="font-pbold text-3xl text-center mt-10">
           Log in to CricBOT
         </Text>
 
