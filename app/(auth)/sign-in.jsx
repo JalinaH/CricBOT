@@ -22,14 +22,22 @@ const Signin = () => {
           Log in to CricBOT
         </Text>
 
-        <FormField />
+        <FormField 
+          title={"Email"}
+          placeholder={"Enter your email"}
+          otherStyles={"mt-5"}
+        />
 
-        <FormField />
+        <FormField 
+          title={"Password"}
+          placeholder={"Enter your password"}
+          
+        />
 
         <CustomButton 
           title={"Sign In"}
           handlePress={() => {}}
-          containerStyles={"mt-5 w-[80%] mx-auto"}
+          containerStyles={"mt-[50px] w-[80%] mx-auto"}
         />
       </View>
 
