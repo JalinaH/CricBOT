@@ -2,8 +2,10 @@ import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  initializeAuth,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import React from "react";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCKs2n1FnufuwChRbhvcdkeuuRaPYTh34c",
@@ -16,6 +18,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+initializeAuth(app);
 
 const auth = getAuth();
 

@@ -9,7 +9,6 @@ import { getAuth } from "firebase/auth";
 export default function Page() {
   const auth = getAuth();
   if (auth.currentUser) {
-    console.log("User is already signed in");
     <Redirect href="/Home" />;
     return null;
   }
