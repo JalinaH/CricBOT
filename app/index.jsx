@@ -1,11 +1,19 @@
-import { Link, router } from "expo-router";
-import {  Image, Text, View } from "react-native";
+import { Link, Redirect, router } from "expo-router";
+import { Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "../constants/images";
 import CustomButton from "../components/CustomButton";
 import { StatusBar } from "expo-status-bar";
+import { getAuth } from "firebase/auth";
 
 export default function Page() {
+  const auth = getAuth();
+  if (auth.currentUser) {
+    console.log("User is already signed in");
+    <Redirect href="/Home" />;
+    return null;
+  }
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <View className="bg-white h-[80vh] mt-[20vh] rounded-3xl">
@@ -40,5 +48,3 @@ export default function Page() {
     </SafeAreaView>
   );
 }
-
-
