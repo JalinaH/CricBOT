@@ -11,18 +11,10 @@ const Signin = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
-        <View className="bg-white h-[90vh] rounded-3xl mt-[20vh]">
+        <View className="bg-white h-[80vh] rounded-3xl mt-[200px]">
           <Text className="font-pbold text-3xl text-center mt-10">
             Sign Up to CricBOT
           </Text>
-          <View className="">
-            <Text className="font-pregular text-center text-m text-grey-200 mt-[10px]">
-              Already have an account?{" "}
-              <Link href="sign-in" className="font-psemibold">
-                Sign In
-              </Link>
-            </Text>
-          </View>
 
           <FormField
             title={"Username"}
@@ -36,8 +28,16 @@ const Signin = () => {
           <CustomButton
             title={"Sign Up"}
             handlePress={() => {}}
-            containerStyles={"mt-[50px] w-[80%] mx-auto"}
+            containerStyles={"mt-[50px] w-[80%] mx-auto mb-5"}
           />
+          <View className="">
+            <Text className="font-pregular text-center text-m text-grey-200">
+              Already have an account?{" "}
+              <Link href="sign-in" className="font-psemibold">
+                Sign In
+              </Link>
+            </Text>
+          </View>
         </View>
 
         <StatusBar style="light" backgroundColor="#1C2120" />
