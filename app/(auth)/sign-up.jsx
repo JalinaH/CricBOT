@@ -6,7 +6,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 import images from "../../constants/images";
 import FormField from "../../components/FormField";
@@ -35,7 +35,7 @@ const Signin = () => {
       setisSubmitting(false);
 
       Alert.alert("Success","User signed up successfully");
-      router.replace("/home");
+      router.replace("/Home");
     } catch (error) {
       setisSubmitting(false);
       Alert.alert("Error",error.message);
@@ -61,18 +61,22 @@ const Signin = () => {
             title={"Username"}
             value={form.username}
             placeholder={"Enter your username"}
+            handleChangeText={(text) => setForm({ ...form, username: text })}
             otherStyles={"mt-5"}
           />
           <FormField
             title={"Email"}
             value={form.email}
             placeholder={"Enter your email"}
+            handleChangeText={(text) => setForm({ ...form, email: text })}
+            keyboardType={"email-address"}
           />
 
           <FormField
             title={"Password"}
             value={form.password}
             placeholder={"Enter your password"}
+            handleChangeText={(text) => setForm({ ...form, password: text })}
           />
 
           <CustomButton
