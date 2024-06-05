@@ -11,7 +11,14 @@ const Signin = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
-        <View className="bg-white h-[80vh] rounded-3xl mt-[200px]">
+        <View className="bg-white h-[120px] w-[120px] rounded-xl mx-auto mb-10 mt-20">
+          <Image
+            source={images.logo}
+            className="w-[100px] h-[100px] justify-center mx-auto my-auto"
+            resizeMode="contain"
+          />
+        </View>
+        <View className="bg-white h-[80%] rounded-3xl">
           <Text className="font-pbold text-3xl text-center mt-10">
             Sign Up to CricBOT
           </Text>
@@ -30,7 +37,7 @@ const Signin = () => {
             handlePress={() => {}}
             containerStyles={"mt-[50px] w-[80%] mx-auto mb-5"}
           />
-          <View className="">
+          <View className="mb-6">
             <Text className="font-pregular text-center text-m text-grey-200">
               Already have an account?{" "}
               <Link href="sign-in" className="font-psemibold">
