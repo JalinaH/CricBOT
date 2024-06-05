@@ -8,6 +8,8 @@ import CustomButton from '../../components/CustomButton';
 import { Link } from 'expo-router';
 
 const Signin = () => {
+  
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>

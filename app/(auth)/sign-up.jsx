@@ -1,13 +1,47 @@
-import { View, Text, SafeAreaView, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  Alert,
+} from "react-native";
 import React from "react";
 
 import images from "../../constants/images";
 import FormField from "../../components/FormField";
 import { StatusBar } from "expo-status-bar";
 import CustomButton from "../../components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { createUser } from "../../firebase/firebase";
 
 const Signin = () => {
+  const [isSubmitting, setisSubmitting] = useState(false);
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const submit = async () => {
+    if (form.username === "" || form.email === "" || form.password === "") {
+      Alert.alert("Please fill all fields");
+    }
+
+    setisSubmitting(true);
+
+    try {
+      await createUser(form.email, form.password);
+      setisSubmitting(false);
+
+      Alert.alert("Success","User signed up successfully");
+      router.replace("/home");
+    } catch (error) {
+      setisSubmitting(false);
+      Alert.alert("Error",error.message);
+    }
+  };
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
@@ -25,16 +59,25 @@ const Signin = () => {
 
           <FormField
             title={"Username"}
+            value={form.username}
             placeholder={"Enter your username"}
             otherStyles={"mt-5"}
           />
-          <FormField title={"Email"} placeholder={"Enter your email"} />
+          <FormField
+            title={"Email"}
+            value={form.email}
+            placeholder={"Enter your email"}
+          />
 
-          <FormField title={"Password"} placeholder={"Enter your password"} />
+          <FormField
+            title={"Password"}
+            value={form.password}
+            placeholder={"Enter your password"}
+          />
 
           <CustomButton
             title={"Sign Up"}
-            handlePress={() => {}}
+            handlePress={submit}
             containerStyles={"mt-[50px] w-[80%] mx-auto mb-5"}
           />
           <View className="mb-6">
