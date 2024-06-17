@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { Image } from "react-native";
 import images from "../../constants/images";
+import icons from "../../constants/icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
@@ -88,6 +89,29 @@ const Home = () => {
                   resizeMode="contain"
                 />
               </TouchableOpacity>
+            </View>
+          </View>
+
+          <View>
+            <Text>Levels</Text>
+            <View>
+              <Image
+                source={images.beginner}
+                className="w-[110px] h-[110px]"
+                resizeMode="contain"
+              />
+              <Text>Beginner</Text>
+              <Text>Recommend for first use </Text>
+              <View>
+                <Image
+                source={icons.star}
+                className="w-6 h-6"
+                resizeMode="contain"
+              />
+              <Text>
+                30 Sessions
+              </Text>
+              </View>
             </View>
           </View>
 
