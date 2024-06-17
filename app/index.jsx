@@ -5,13 +5,29 @@ import images from "../constants/images";
 import CustomButton from "../components/CustomButton";
 import { StatusBar } from "expo-status-bar";
 import { getAuth } from "firebase/auth";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   const auth = getAuth();
-  if (auth.currentUser) {
-    <Redirect href="/Home" />;
-    return null;
-  }
+  const [isLogged, setIsLogged] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+        setIsLogged(true);
+      } else {
+        setIsLogged(false);
+      }
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  });
+
+  if (!loading && isLogged) return <Redirect to="/Home" />;
 
   return (
     <SafeAreaView className="bg-primary h-full">
