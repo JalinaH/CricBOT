@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { Image } from "react-native";
 import images from "../../constants/images";
+import icons from "../../constants/icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
@@ -48,25 +49,69 @@ const Home = () => {
             </TouchableOpacity>
           </View>
 
-          <View>
-            <View className="ml-5 mt-5 flex flex-row w-[100%]">
+          <View className="flex flex-col">
+            <View className="ml-5 mt-5 flex flex-row mx-auto">
               <TouchableOpacity>
                 <Image
                   source={images.bouncer}
-                  className="w-[120px] h-[120px]"
+                  className="w-[110px] h-[110px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
               <TouchableOpacity>
                 <Image
                   source={images.yorker}
-                  className="w-[120px] h-[120px] ml-3"
+                  className="w-[110px] h-[110px] ml-3"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
             </View>
-            <View>
 
+            <View className="ml-5 mt-5 flex flex-row mx-auto">
+              <TouchableOpacity>
+                <Image
+                  source={images.fast}
+                  className="w-[110px] h-[110px]"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  source={images.slow}
+                  className="w-[110px] h-[110px] ml-3"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  source={images.swing}
+                  className="w-[110px] h-[110px] ml-3"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View>
+            <Text>Levels</Text>
+            <View>
+              <Image
+                source={images.beginner}
+                className="w-[110px] h-[110px]"
+                resizeMode="contain"
+              />
+              <Text>Beginner</Text>
+              <Text>Recommend for first use </Text>
+              <View>
+                <Image
+                source={icons.star}
+                className="w-6 h-6"
+                resizeMode="contain"
+              />
+              <Text>
+                30 Sessions
+              </Text>
+              </View>
             </View>
           </View>
 
