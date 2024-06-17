@@ -105,7 +105,7 @@ const Home = () => {
               <View>
                 <Image
                 source={icons.star}
-                className="w-6 h-6"
+                className="w-[100px] h-[100px]"
                 resizeMode="contain"
               />
               <Text>
