@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { Image } from "react-native";
 import images from "../../constants/images";
@@ -19,7 +19,9 @@ const Home = () => {
               />
               <View className="mt-7">
                 <Text className="text-xl font-psemibold">CricBOT</Text>
-                <Text className="text-lg">Smart Cricket Trainer</Text>
+                <Text className="text-lg font-plight">
+                  Smart Cricket Trainer
+                </Text>
               </View>
             </View>
           </View>
@@ -37,6 +39,13 @@ const Home = () => {
               <Text className="font-psemibold text-lg">160</Text>
               <Text className="text-grey-100">Minutes</Text>
             </View>
+          </View>
+
+          <View className="flex flex-row justify-between ml-5 mr-5 mt-10">
+            <Text className="text-[15px] font-pmedium">Quick Start</Text>
+            <TouchableOpacity>
+              <Text className="text-[15px] font-pmedium">Show All</Text>
+            </TouchableOpacity>
           </View>
 
           <StatusBar style="light" backgroundColor="#1C2120" />
