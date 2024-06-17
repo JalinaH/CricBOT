@@ -53,14 +53,14 @@ const Home = () => {
               <TouchableOpacity>
                 <Image
                   source={images.bouncer}
-                  className="w-[33%] h-[120px]"
+                  className="w-[120px] h-[120px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
               <TouchableOpacity>
                 <Image
                   source={images.yorker}
-                  className="w-[33%] h-[120px]"
+                  className="w-[120px] h-[120px] ml-3"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
