@@ -48,6 +48,28 @@ const Home = () => {
             </TouchableOpacity>
           </View>
 
+          <View>
+            <View className="ml-5 mt-5 flex flex-row w-[100%]">
+              <TouchableOpacity>
+                <Image
+                  source={images.bouncer}
+                  className="w-[33%] h-[120px]"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  source={images.yorker}
+                  className="w-[33%] h-[120px]"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+            <View>
+
+            </View>
+          </View>
+
           <StatusBar style="light" backgroundColor="#1C2120" />
         </ScrollView>
       </SafeAreaView>
