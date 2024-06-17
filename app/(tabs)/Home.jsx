@@ -48,25 +48,46 @@ const Home = () => {
             </TouchableOpacity>
           </View>
 
-          <View>
-            <View className="ml-5 mt-5 flex flex-row w-[100%]">
+          <View className="flex flex-col">
+            <View className="ml-5 mt-5 flex flex-row mx-auto">
               <TouchableOpacity>
                 <Image
                   source={images.bouncer}
-                  className="w-[120px] h-[120px]"
+                  className="w-[110px] h-[110px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
               <TouchableOpacity>
                 <Image
                   source={images.yorker}
-                  className="w-[120px] h-[120px] ml-3"
+                  className="w-[110px] h-[110px] ml-3"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
             </View>
-            <View>
 
+            <View className="ml-5 mt-5 flex flex-row mx-auto">
+              <TouchableOpacity>
+                <Image
+                  source={images.fast}
+                  className="w-[110px] h-[110px]"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  source={images.slow}
+                  className="w-[110px] h-[110px] ml-3"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  source={images.swing}
+                  className="w-[110px] h-[110px] ml-3"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
             </View>
           </View>
 
