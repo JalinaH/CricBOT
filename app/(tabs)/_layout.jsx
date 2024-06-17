@@ -9,7 +9,7 @@ const TabLayout = () => {
         name="Home"
         options={{
           title: "Home",
-          //   headerShown: false,
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Text style={{ color }}>{focused ? "🏠" : "🏠"}</Text>
           ),
