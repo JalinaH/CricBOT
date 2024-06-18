@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const response = await fetch("http://<ESP8266_IP_Address>/status"); // Replace with your ESP8266 IP address
+        const response = await fetch("http://10.10.8.39/status"); 
         if (response.ok) {
           setIsConnected(true);
           setConnectionStatus("Connected");
@@ -28,8 +28,8 @@ const Home = () => {
     };
     checkConnection();
 
-    const intervalId = setInterval(checkConnection, 5000); 
-    return () => clearInterval(intervalId); 
+    // const intervalId = setInterval(checkConnection, 5000); 
+    // return () => clearInterval(intervalId); 
   }, []);
 
   return (
