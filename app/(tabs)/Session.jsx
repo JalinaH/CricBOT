@@ -1,6 +1,8 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Image } from "react-native";
+import images from "../../constants/images";
 
 const Session = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -63,6 +65,17 @@ const Session = () => {
           <View className="flex flex-col w-[33%] items-center">
             <Text className="font-psemibold text-lg">160</Text>
             <Text className="text-grey-100">Minutes</Text>
+          </View>
+        </View>
+
+        <View className="mt-10 ml-5">
+          <Text className="font-psemibold text-lg">
+            Random
+          </Text>
+          <View className="border border-black mt-5 mr-5 mb-5 p-5 rounded-lg">
+            <Text className="font-plight text-grey-100">
+              Randomly generated balls
+            </Text>
           </View>
         </View>
       </ScrollView>
