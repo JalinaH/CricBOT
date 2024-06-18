@@ -48,7 +48,7 @@ const Home = () => {
               </View>
               <View className="ml-10 mt-5">
                 <Text
-                  style={{ color: isConnected ? "green" : "red" }}
+                  style={{ color: connectionStatus === "Disconnected" ? "red" : "green" }}
                   className="font-plight"
                 >
                   {connectionStatus}
