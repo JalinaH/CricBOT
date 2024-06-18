@@ -82,6 +82,15 @@ const Home = () => {
 
           <View className="flex flex-col">
             <View className="ml-5 mt-5 flex flex-row mx-auto">
+              <TouchableOpacity 
+              className="bg-white w-[110px] h-[110px]"
+              >
+                <Image
+                  source={images.random}
+                  className="w-[110px] h-[110px]"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
               <TouchableOpacity>
                 <Image
                   source={images.bouncer}
