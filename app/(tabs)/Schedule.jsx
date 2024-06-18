@@ -3,8 +3,8 @@ import React from "react";
 
 const Schedule = () => {
   return (
-    <View>
-      <Text>Schedule</Text>
+    <View className="m-auto">
+      <Text className="font-pbold text-3xl">Under Development!</Text>
     </View>
   );
 };
