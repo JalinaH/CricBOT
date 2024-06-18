@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const response = await fetch("https://10.10.8.39/status");
+        const response = await fetch("http://10.10.8.39/status"); 
         if (response.ok) {
           setIsConnected(true);
           setConnectionStatus("Connected");
@@ -22,11 +22,14 @@ const Home = () => {
           setConnectionStatus("Disconnected");
         }
       } catch (error) {
-        isConnected(false);
+        setIsConnected(false);
         setConnectionStatus("Disconnected");
       }
     };
     checkConnection();
+
+    // const intervalId = setInterval(checkConnection, 5000); 
+    // return () => clearInterval(intervalId); 
   }, []);
 
   return (
@@ -46,14 +49,12 @@ const Home = () => {
                   Smart Cricket Trainer
                 </Text>
               </View>
-              <View className="ml-10 mt-5">
-                <Text
-                  style={{ color: isConnected ? "green" : "red" }}
-                  className="font-plight"
-                >
-                  {connectionStatus}
-                </Text>
-              </View>
+              <Text
+                className="font-plight ml-10 mt-5"
+                style={{ color: isConnected ? "green" : "red" }}
+              >
+                {connectionStatus}
+              </Text>
             </View>
           </View>
 
