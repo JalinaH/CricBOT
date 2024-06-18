@@ -48,13 +48,13 @@ const Home = () => {
                 <Text className="text-lg font-plight">
                   Smart Cricket Trainer
                 </Text>
-                <Text
-                  className="text-lg font-plight"
-                  style={{ color: isConnected ? "green" : "red" }}
-                >
-                  {connectionStatus}
-                </Text>
               </View>
+              <Text
+                className="font-plight ml-10 mt-5"
+                style={{ color: isConnected ? "green" : "red" }}
+              >
+                {connectionStatus}
+              </Text>
             </View>
           </View>
 
