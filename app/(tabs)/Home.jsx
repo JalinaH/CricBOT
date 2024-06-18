@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import images from "../../constants/images";
 import icons from "../../constants/icons";
@@ -7,6 +7,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
 const Home = () => {
+  const [isConnected, setIsConnected] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState("Disconnected");
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      try {
+        const response = await fetch("https://10.10.8.39/status");
+        if (response.ok) {
+          setIsConnected(true);
+          setConnectionStatus("Connected");
+        } else {
+          setIsConnected(false);
+          setConnectionStatus("Disconnected");
+        }
+      } catch (error) {
+        isConnected(false);
+        setConnectionStatus("Disconnected");
+      }
+    };
+    checkConnection();
+  }, []);
+
   return (
     <>
       <SafeAreaView>
@@ -22,6 +44,14 @@ const Home = () => {
                 <Text className="text-xl font-psemibold">CricBOT</Text>
                 <Text className="text-lg font-plight">
                   Smart Cricket Trainer
+                </Text>
+              </View>
+              <View className="ml-10 mt-5">
+                <Text
+                  style={{ color: isConnected ? "green" : "red" }}
+                  className="font-plight"
+                >
+                  {connectionStatus}
                 </Text>
               </View>
             </View>
@@ -104,13 +134,11 @@ const Home = () => {
               <Text>Recommend for first use </Text>
               <View>
                 <Image
-                source={icons.star}
-                className="w-[100px] h-[100px]"
-                resizeMode="contain"
-              />
-              <Text>
-                30 Sessions
-              </Text>
+                  source={icons.star}
+                  className="w-[100px] h-[100px]"
+                  resizeMode="contain"
+                />
+                <Text>30 Sessions</Text>
               </View>
             </View>
           </View>
