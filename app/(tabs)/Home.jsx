@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const response = await fetch("https://10.10.8.39/status");
+        const response = await fetch("http://<ESP8266_IP_Address>/status"); // Replace with your ESP8266 IP address
         if (response.ok) {
           setIsConnected(true);
           setConnectionStatus("Connected");
@@ -22,11 +22,14 @@ const Home = () => {
           setConnectionStatus("Disconnected");
         }
       } catch (error) {
-        isConnected(false);
+        setIsConnected(false);
         setConnectionStatus("Disconnected");
       }
     };
     checkConnection();
+
+    const intervalId = setInterval(checkConnection, 5000); 
+    return () => clearInterval(intervalId); 
   }, []);
 
   return (
@@ -45,11 +48,9 @@ const Home = () => {
                 <Text className="text-lg font-plight">
                   Smart Cricket Trainer
                 </Text>
-              </View>
-              <View className="ml-10 mt-5">
                 <Text
-                  style={{ color: connectionStatus === "Disconnected" ? "red" : "green" }}
-                  className="font-plight"
+                  className="text-lg font-plight"
+                  style={{ color: isConnected ? "green" : "red" }}
                 >
                   {connectionStatus}
                 </Text>
