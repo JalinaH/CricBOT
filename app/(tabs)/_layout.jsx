@@ -55,21 +55,7 @@ const TabLayout = () => {
           ),
         }}
       />
-      <Tabs.Screen
-        name="Profile"
-        options={{
-          title: "Profile",
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.profile}
-              color={color}
-              name="Profile"
-              focused={focused}
-            />
-          ),
-        }}
-      />
+
       <Tabs.Screen
         name="Session"
         options={{
@@ -95,6 +81,21 @@ const TabLayout = () => {
               icon={icons.schedule}
               color={color}
               name="Schedule"
+              focused={focused}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Profile"
+        options={{
+          title: "Profile",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon
+              icon={icons.profile}
+              color={color}
+              name="Profile"
               focused={focused}
             />
           ),
