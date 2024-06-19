@@ -5,31 +5,35 @@ import images from "../../constants/images";
 import icons from "../../constants/icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { NetworkInfo } from "react-native-network-info";
 
 const Home = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
+  const [ipAddress, setIpAddress] = useState("");
 
-  useEffect(() => {
-    const checkConnection = async () => {
-      try {
-        const response = await fetch("http://192.168.126.73/status");
-        if (response.ok) {
-          setIsConnected(true);
-          setConnectionStatus("Connected");
-        } else {
-          setIsConnected(false);
-          setConnectionStatus("Disconnected");
-        }
-      } catch (error) {
+  const checkConnection = async () => {
+    try {
+      const ip = await NetworkInfo.getIPV4Address();
+      setIpAddress(ip);
+      const response = await fetch(`http://${ip}/status`);
+      if (response.ok) {
+        setIsConnected(true);
+        setConnectionStatus("Connected");
+      } else {
         setIsConnected(false);
         setConnectionStatus("Disconnected");
       }
-    };
-    checkConnection();
+    } catch (error) {
+      setIsConnected(false);
+      setConnectionStatus("Disconnected");
+    }
+  };
 
-    // const intervalId = setInterval(checkConnection, 5000);
-    // return () => clearInterval(intervalId);
+  useEffect(() => {
+    checkConnection();
+    const intervalId = setInterval(checkConnection, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -160,7 +164,9 @@ const Home = () => {
               />
               <View>
                 <Text className="font-psemibold text-lg">Advanced Plans</Text>
-                <Text className="font-plight">Recommend for previous users </Text>
+                <Text className="font-plight">
+                  Recommend for previous users{" "}
+                </Text>
                 <View className="flex flex-row items-center gap-1">
                   <Image
                     source={icons.star}
