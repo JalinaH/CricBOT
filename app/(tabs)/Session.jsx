@@ -87,6 +87,7 @@ const Session = () => {
                 </TouchableOpacity>
               </View>
             </View>
+
             <Text className="font-pregular mx-auto mb-1">Number of Balls</Text>
             <View className="mx-auto mb-5">
               <View className="w-[60%] flex flex-row justify-between items-center">
@@ -101,6 +102,7 @@ const Session = () => {
                 </TouchableOpacity>
               </View>
             </View>
+
             <Text className="font-pregular mx-auto mb-1">Ball Waiting Time</Text>
             <View className="mx-auto">
               <View className="w-[60%] flex flex-row justify-between items-center">
@@ -115,6 +117,8 @@ const Session = () => {
                 </TouchableOpacity>
               </View>
             </View>
+
+            
           </View>
         </View>
       </ScrollView>
