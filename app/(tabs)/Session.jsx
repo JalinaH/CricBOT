@@ -1,8 +1,10 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import images from "../../constants/images";
+import { MinusCircle } from "phosphor-react-native";
+import { PlusCircle } from "phosphor-react-native";
 
 const Session = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -69,13 +71,50 @@ const Session = () => {
         </View>
 
         <View className="mt-10 ml-5">
-          <Text className="font-psemibold text-lg">
-            Random
-          </Text>
+          <Text className="font-psemibold text-lg">Random</Text>
           <View className="border border-black mt-5 mr-5 mb-5 p-5 rounded-lg">
-            <Text className="font-plight text-grey-100">
-              Randomly generated balls
-            </Text>
+            <Text className="font-pregular mx-auto mb-1">Speed</Text>
+            <View className="mx-auto mb-5">
+              <View className="w-[60%] flex flex-row justify-between items-center">
+                <TouchableOpacity>
+                  <MinusCircle size={30} />
+                </TouchableOpacity>
+                <View className="bg-grey-200 rounded-lg w-[80%]">
+                  <Text className="font-pbold text-white mx-auto pt-1 pb-1">100 KMH</Text>
+                </View>
+                <TouchableOpacity>
+                  <PlusCircle size={30} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Text className="font-pregular mx-auto mb-1">Number of Balls</Text>
+            <View className="mx-auto mb-5">
+              <View className="w-[60%] flex flex-row justify-between items-center">
+                <TouchableOpacity>
+                  <MinusCircle size={30} />
+                </TouchableOpacity>
+                <View className="bg-grey-200 rounded-lg w-[80%]">
+                  <Text className="font-pbold text-white mx-auto pt-1 pb-1">10</Text>
+                </View>
+                <TouchableOpacity>
+                  <PlusCircle size={30} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Text className="font-pregular mx-auto mb-1">Ball Waiting Time</Text>
+            <View className="mx-auto">
+              <View className="w-[60%] flex flex-row justify-between items-center">
+                <TouchableOpacity>
+                  <MinusCircle size={30} />
+                </TouchableOpacity>
+                <View className="bg-grey-200 rounded-lg w-[80%]">
+                  <Text className="font-pbold text-white mx-auto pt-1 pb-1">10 sec</Text>
+                </View>
+                <TouchableOpacity>
+                  <PlusCircle size={30} />
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </View>
       </ScrollView>
