@@ -1,10 +1,15 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import images from "../../constants/images";
-import { MinusCircle } from "phosphor-react-native";
-import { PlusCircle } from "phosphor-react-native";
+import { MinusCircle, PlusCircle } from "phosphor-react-native";
 import RNPickerSelect from "react-native-picker-select";
 
 const Session = () => {
@@ -184,19 +189,46 @@ const Session = () => {
         </View>
 
         <View>
-          <RNPickerSelect>
+          <RNPickerSelect
             onValueChange={(value) => setSelectedValue(value)}
             items={items}
-            placeholder=
-            {{
-              label: "Select an option...",
+            placeholder={{
+              label: "Select a Ball Type",
               value: null,
             }}
-          </RNPickerSelect>
+            style={pickerSelectStyles}
+            useNativeAndroidPickerStyle={false}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 5,
+    padding: 10,
+    margin: 10 ,
+    color: "black",
+
+  },
+  inputAndroid: {
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 5,
+    padding: 10,
+    margin: 10,
+    color: "black",
+    width: "80%",
+    marginHorizontal: "10%",
+    fontFamily: "Poppins-Regular",
+  },
+  placeholder: {
+    color: "gray",
+  },
+});
 
 export default Session;
