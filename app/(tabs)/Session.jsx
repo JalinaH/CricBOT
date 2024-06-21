@@ -192,10 +192,7 @@ const Session = () => {
           <RNPickerSelect
             onValueChange={(value) => setSelectedValue(value)}
             items={items}
-            placeholder={{
-              label: "Select a Ball Type",
-              value: null,
-            }}
+            value={items[0].value}
             style={pickerSelectStyles}
             useNativeAndroidPickerStyle={false}
           />
