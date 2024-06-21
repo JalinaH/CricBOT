@@ -21,7 +21,7 @@ const Session = () => {
   const [ballWaitingTime, setBallWaitingTime] = useState(10);
 
   const items = [
-    { label: "Random", value: "random" },
+    { label: "Random", value: "random",  color: "black"},
     { label: "Bouncer Ball", value: "bouncer" },
     { label: "Yorker Ball", value: "yorker" },
     { label: "Fast Ball", value: "fast" },
@@ -221,9 +221,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: "80%",
     marginHorizontal: "10%",
     fontFamily: "Poppins-Regular",
-  },
-  placeholder: {
-    color: "gray",
   },
 });
 
