@@ -10,30 +10,27 @@ import { NetworkInfo } from "react-native-network-info";
 const Home = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
-  const [ipAddress, setIpAddress] = useState("");
 
-  const checkConnection = async () => {
-    try {
-      const ip = await NetworkInfo.getIPV4Address();
-      setIpAddress(ip);
-      const response = await fetch(`http://${ip}/status`);
-      if (response.ok) {
-        setIsConnected(true);
-        setConnectionStatus("Connected");
-      } else {
+  useEffect(() => {
+    const checkConnection = async () => {
+      try {
+        const response = await fetch("http://192.168.126.73/status");
+        if (response.ok) {
+          setIsConnected(true);
+          setConnectionStatus("Connected");
+        } else {
+          setIsConnected(false);
+          setConnectionStatus("Disconnected");
+        }
+      } catch (error) {
         setIsConnected(false);
         setConnectionStatus("Disconnected");
       }
-    } catch (error) {
-      setIsConnected(false);
-      setConnectionStatus("Disconnected");
-    }
-  };
-
-  useEffect(() => {
+    };
     checkConnection();
-    const intervalId = setInterval(checkConnection, 5000);
-    return () => clearInterval(intervalId);
+
+    // const intervalId = setInterval(checkConnection, 5000);
+    // return () => clearInterval(intervalId);
   }, []);
 
   return (
