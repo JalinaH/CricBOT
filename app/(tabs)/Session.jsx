@@ -11,6 +11,7 @@ const Session = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
   const [selectedValue, setSelectedValue] = useState(null);
+  const [speed, setSpeed] = useState(100);
 
   const items = [
     { label: "Random", value: "random" },
@@ -21,7 +22,6 @@ const Session = () => {
   ];
 
   useEffect(() => {
-
     const checkConnection = async () => {
       try {
         const response = await fetch("http://192.168.126.73/status");
@@ -42,6 +42,18 @@ const Session = () => {
     const intervalId = setInterval(checkConnection, 5000);
     return () => clearInterval(intervalId);
   }, []);
+
+  const increseSpeed = () => {
+    setSpeed((prevSpeed) =>
+      prevSpeed + 10 <= 130 ? prevSpeed + 10 : prevSpeed
+    );
+  };
+
+  const decreaseSpeed = () => {
+    setSpeed((prevSpeed) =>
+      prevSpeed - 10 >= 50 ? prevSpeed - 10 : prevSpeed
+    );
+  };
 
   return (
     <SafeAreaView>
@@ -87,7 +99,7 @@ const Session = () => {
             <Text className="font-pregular mx-auto mb-1">Speed</Text>
             <View className="mx-auto mb-5">
               <View className="w-[60%] flex flex-row justify-between items-center">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={decreaseSpeed}>
                   <MinusCircle size={30} />
                 </TouchableOpacity>
                 <View className="bg-grey-200 rounded-md w-[80%]">
@@ -95,7 +107,7 @@ const Session = () => {
                     100 KMH
                   </Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={increseSpeed}>
                   <PlusCircle size={30} />
                 </TouchableOpacity>
               </View>
