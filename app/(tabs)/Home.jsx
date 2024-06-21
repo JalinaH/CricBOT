@@ -6,6 +6,7 @@ import icons from "../../constants/icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { NetworkInfo } from "react-native-network-info";
+import { useNavigation } from "expo-router";
 
 const Home = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -32,6 +33,12 @@ const Home = () => {
     // const intervalId = setInterval(checkConnection, 5000);
     // return () => clearInterval(intervalId);
   }, []);
+
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate("Session");
+  };
 
   return (
     <>
@@ -83,21 +90,21 @@ const Home = () => {
 
           <View className="flex flex-col">
             <View className="ml-5 mt-5 flex flex-row mx-auto">
-              <TouchableOpacity className="bg-white w-[110px] h-[110px]">
+              <TouchableOpacity onPress={handlePress}>
                 <Image
                   source={images.random}
                   className="w-[110px] h-[110px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handlePress}>
                 <Image
                   source={images.bouncer}
                   className="w-[110px] h-[110px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handlePress}>
                 <Image
                   source={images.yorker}
                   className="w-[110px] h-[110px] ml-3"
@@ -107,21 +114,21 @@ const Home = () => {
             </View>
 
             <View className="ml-5 mt-5 flex flex-row mx-auto">
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handlePress}>
                 <Image
                   source={images.fast}
                   className="w-[110px] h-[110px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handlePress}>
                 <Image
                   source={images.slow}
                   className="w-[110px] h-[110px] ml-3"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handlePress}>
                 <Image
                   source={images.swing}
                   className="w-[110px] h-[110px] ml-3"
