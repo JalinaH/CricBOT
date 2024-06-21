@@ -192,10 +192,7 @@ const Session = () => {
           <RNPickerSelect
             onValueChange={(value) => setSelectedValue(value)}
             items={items}
-            placeholder={{
-              label: "Select a Ball Type",
-              value: null,
-            }}
+            value={items[0].value}
             style={pickerSelectStyles}
             useNativeAndroidPickerStyle={false}
           />
@@ -211,9 +208,8 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: "black",
     borderRadius: 5,
     padding: 10,
-    margin: 10 ,
+    margin: 10,
     color: "black",
-
   },
   inputAndroid: {
     borderWidth: 1,
