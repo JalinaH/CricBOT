@@ -11,7 +11,9 @@ const Session = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
   const [selectedValue, setSelectedValue] = useState(null);
-  const [speed, setSpeed] = useState(100);
+  const [speed, setSpeed] = useState(70);
+  const [balls, setBalls] = useState(10);
+  const [ballWaitingTime, setBallWaitingTime] = useState(10);
 
   const items = [
     { label: "Random", value: "random" },
@@ -52,6 +54,30 @@ const Session = () => {
   const decreaseSpeed = () => {
     setSpeed((prevSpeed) =>
       prevSpeed - 10 >= 50 ? prevSpeed - 10 : prevSpeed
+    );
+  };
+
+  const increseBalls = () => {
+    setBalls((prevBalls) => (prevBalls + 1 <= 20 ? prevBalls + 1 : prevBalls));
+  };
+
+  const decreaseBalls = () => {
+    setBalls((prevBalls) => (prevBalls - 1 >= 1 ? prevBalls - 1 : prevBalls));
+  };
+
+  const increseBallWaitingTime = () => {
+    setBallWaitingTime((prevBallWaitingTime) =>
+      prevBallWaitingTime + 1 <= 60
+        ? prevBallWaitingTime + 5
+        : prevBallWaitingTime
+    );
+  };
+
+  const decreaseBallWaitingTime = () => {
+    setBallWaitingTime((prevBallWaitingTime) =>
+      prevBallWaitingTime - 1 >= 10
+        ? prevBallWaitingTime - 5
+        : prevBallWaitingTime
     );
   };
 
@@ -104,7 +130,7 @@ const Session = () => {
                 </TouchableOpacity>
                 <View className="bg-grey-200 rounded-md w-[80%]">
                   <Text className="font-pbold text-white mx-auto pt-1 pb-1">
-                    100 KMH
+                    {speed} KMH
                   </Text>
                 </View>
                 <TouchableOpacity onPress={increseSpeed}>
@@ -116,15 +142,15 @@ const Session = () => {
             <Text className="font-pregular mx-auto mb-1">Number of Balls</Text>
             <View className="mx-auto mb-5">
               <View className="w-[60%] flex flex-row justify-between items-center">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={decreaseBalls}>
                   <MinusCircle size={30} />
                 </TouchableOpacity>
                 <View className="bg-grey-200 rounded-md w-[80%]">
                   <Text className="font-pbold text-white mx-auto pt-1 pb-1">
-                    10
+                    {balls} Balls
                   </Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={increseBalls}>
                   <PlusCircle size={30} />
                 </TouchableOpacity>
               </View>
@@ -135,15 +161,15 @@ const Session = () => {
             </Text>
             <View className="mx-auto">
               <View className="w-[60%] flex flex-row justify-between items-center">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={decreaseBallWaitingTime}>
                   <MinusCircle size={30} />
                 </TouchableOpacity>
                 <View className="bg-grey-200 rounded-md w-[80%]">
                   <Text className="font-pbold text-white mx-auto pt-1 pb-1">
-                    10 sec
+                    {ballWaitingTime} sec
                   </Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={increseBallWaitingTime}>
                   <PlusCircle size={30} />
                 </TouchableOpacity>
               </View>
