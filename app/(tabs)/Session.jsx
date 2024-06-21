@@ -10,17 +10,17 @@ import RNPickerSelect from "react-native-picker-select";
 const Session = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  const items = [
+    { label: "Random", value: "random" },
+    { label: "Bouncer Ball", value: "bouncer" },
+    { label: "Yorker Ball", value: "yorker" },
+    { label: "Fast Ball", value: "fast" },
+    { label: "Slow Ball", value: "slow" },
+  ];
 
   useEffect(() => {
-    const [selectedValue, setSelectedValue] = useState(null);
-
-    const items = [
-      { label: "Random", value: "random" },
-      { label: "Bouncer Ball", value: "bouncer" },
-      { label: "Yorker Ball", value: "yorker" },
-      { label: "Fast Ball", value: "fast" },
-      { label: "Slow Ball", value: "slow" },
-    ];
 
     const checkConnection = async () => {
       try {
@@ -39,8 +39,8 @@ const Session = () => {
     };
     checkConnection();
 
-    // const intervalId = setInterval(checkConnection, 5000);
-    // return () => clearInterval(intervalId);
+    const intervalId = setInterval(checkConnection, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (

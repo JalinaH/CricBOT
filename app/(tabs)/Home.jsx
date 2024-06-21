@@ -30,8 +30,8 @@ const Home = () => {
     };
     checkConnection();
 
-    // const intervalId = setInterval(checkConnection, 5000);
-    // return () => clearInterval(intervalId);
+    const intervalId = setInterval(checkConnection, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
   const navigation = useNavigation();
