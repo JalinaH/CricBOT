@@ -93,7 +93,7 @@ const Home = () => {
               <TouchableOpacity onPress={handlePress}>
                 <Image
                   source={images.random}
-                  className="w-[110px] h-[110px]"
+                  className="w-[103px] h-[110px] mr-2 mt-[-px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
