@@ -11,22 +11,30 @@ import { Image } from "react-native";
 import images from "../../constants/images";
 import { MinusCircle, PlusCircle } from "phosphor-react-native";
 import RNPickerSelect from "react-native-picker-select";
+import { useRoute } from "@react-navigation/native";
 
 const Session = () => {
+  const route = useRoute();
+  const { title } = route.params;
+
   const [isConnected, setIsConnected] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState(title);
   const [speed, setSpeed] = useState(70);
   const [balls, setBalls] = useState(10);
   const [ballWaitingTime, setBallWaitingTime] = useState(10);
 
   const items = [
-    { label: "Random", value: "random" },
+    { label: "Random", value: "random", color: "black" },
     { label: "Bouncer Ball", value: "bouncer" },
     { label: "Yorker Ball", value: "yorker" },
     { label: "Fast Ball", value: "fast" },
     { label: "Slow Ball", value: "slow" },
   ];
+
+  useEffect(() => {
+    setSelectedValue(title);
+  }, [title]);
 
   useEffect(() => {
     const checkConnection = async () => {
@@ -125,7 +133,7 @@ const Session = () => {
         </View>
 
         <View className="mt-10 ml-5">
-          <Text className="font-psemibold text-lg">Random</Text>
+          <Text className="font-psemibold text-lg">{selectedValue}</Text>
           <View className="border border-black mt-5 mr-5 mb-5 p-5 rounded-lg">
             <Text className="font-pregular mx-auto mb-1">Speed</Text>
             <View className="mx-auto mb-5">
@@ -192,7 +200,7 @@ const Session = () => {
           <RNPickerSelect
             onValueChange={(value) => setSelectedValue(value)}
             items={items}
-            value={items[0].value}
+            value={selectedValue}
             style={pickerSelectStyles}
             useNativeAndroidPickerStyle={false}
           />
@@ -221,9 +229,6 @@ const pickerSelectStyles = StyleSheet.create({
     width: "80%",
     marginHorizontal: "10%",
     fontFamily: "Poppins-Regular",
-  },
-  placeholder: {
-    color: "gray",
   },
 });
 

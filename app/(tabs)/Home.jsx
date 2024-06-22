@@ -15,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const response = await fetch("http://192.168.126.73/status");
+        const response = await fetch("http://192.168.1.14/status");
         if (response.ok) {
           setIsConnected(true);
           setConnectionStatus("Connected");
@@ -36,8 +36,8 @@ const Home = () => {
 
   const navigation = useNavigation();
 
-  const handlePress = () => {
-    navigation.navigate("Session");
+  const handlePress = (title) => {
+    navigation.navigate("Session", { title });
   };
 
   return (
@@ -90,21 +90,21 @@ const Home = () => {
 
           <View className="flex flex-col">
             <View className="ml-5 mt-5 flex flex-row mx-auto">
-              <TouchableOpacity onPress={handlePress}>
+              <TouchableOpacity onPress={() => handlePress("Random")}>
                 <Image
                   source={images.random}
                   className="w-[103px] h-[110px] mr-2 mt-[-px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={handlePress}>
+              <TouchableOpacity onPress={() => handlePress("Bouncer Ball")}>
                 <Image
                   source={images.bouncer}
                   className="w-[110px] h-[110px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={handlePress}>
+              <TouchableOpacity onPress={() => handlePress("Yorker Ball")}>
                 <Image
                   source={images.yorker}
                   className="w-[110px] h-[110px] ml-3"
@@ -114,21 +114,21 @@ const Home = () => {
             </View>
 
             <View className="ml-5 mt-5 flex flex-row mx-auto">
-              <TouchableOpacity onPress={handlePress}>
+              <TouchableOpacity onPress={() => handlePress("Fast Ball")}>
                 <Image
                   source={images.fast}
                   className="w-[110px] h-[110px]"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={handlePress}>
+              <TouchableOpacity onPress={() => handlePress("Slow Ball")}>
                 <Image
                   source={images.slow}
                   className="w-[110px] h-[110px] ml-3"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={handlePress}>
+              <TouchableOpacity onPress={() => handlePress("Swing Ball")}>
                 <Image
                   source={images.swing}
                   className="w-[110px] h-[110px] ml-3"
