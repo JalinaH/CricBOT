@@ -15,7 +15,7 @@ import { useRoute } from "@react-navigation/native";
 
 const Session = () => {
   const route = useRoute();
-  const { title } = route.params;
+  const { title } = route.params || { title: "Random" };
 
   const [isConnected, setIsConnected] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
