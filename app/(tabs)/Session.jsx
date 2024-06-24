@@ -4,6 +4,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -92,6 +93,14 @@ const Session = () => {
         ? prevBallWaitingTime - 5
         : prevBallWaitingTime
     );
+  };
+
+  const handlePress = () => {
+    if (selectedValue === "random") {
+      Alert.alert(
+        "This mode is still under development. Please select another mode."
+      );
+    }
   };
 
   return (
@@ -188,7 +197,7 @@ const Session = () => {
               </View>
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handlePress}>
               <View className="bg-grey-200 rounded-3xl mt-10 p-2 w-[40%] mx-auto mb-2">
                 <Text className="font-psemibold text-white mx-auto">Play</Text>
               </View>
