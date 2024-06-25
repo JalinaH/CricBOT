@@ -6,9 +6,16 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { UserCircle, Question, Info, AddressBook } from "phosphor-react-native";
-import { PencilSimple, ShareNetwork } from "phosphor-react-native";
-import { BellSimple, Key } from "phosphor-react-native";
+import {
+  UserCircle,
+  Question,
+  Info,
+  AddressBook,
+  PencilSimple,
+  ShareNetwork,
+  BellSimple,
+  Key,
+} from "phosphor-react-native";
 
 const Profile = () => {
   return (
@@ -56,7 +63,7 @@ const Profile = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            
+
             <View>
               <View className="h-10 w-[100%] bg-[#EDEDED] justify-center mt-10 ">
                 <Text className="font-pregular ml-5 text-grey-100 text-lg">
