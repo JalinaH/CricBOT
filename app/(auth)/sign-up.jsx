@@ -34,11 +34,11 @@ const Signin = () => {
       await createUser(form.email, form.password);
       setisSubmitting(false);
 
-      Alert.alert("Success","User signed up successfully");
+      Alert.alert("Success", "User signed up successfully");
       router.replace("/Home");
     } catch (error) {
       setisSubmitting(false);
-      Alert.alert("Error",error.message);
+      Alert.alert("Error", error.message);
     }
   };
 
