@@ -161,6 +161,8 @@ const Profile = () => {
             </TouchableOpacity>
           </View>
         </View>
+
+        <StatusBar style="light" backgroundColor="#1C2120" />
       </ScrollView>
     </SafeAreaView>
   );

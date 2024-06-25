@@ -214,6 +214,8 @@ const Session = () => {
             useNativeAndroidPickerStyle={false}
           />
         </View>
+
+        <StatusBar style="light" backgroundColor="#1C2120" />
       </ScrollView>
     </SafeAreaView>
   );

@@ -36,7 +36,7 @@ export default function Page() {
   }
 
   if (isLogged) {
-    return <Redirect to="/Home" />;
+    return <Redirect href="/Home" />;
   }
 
   return (
