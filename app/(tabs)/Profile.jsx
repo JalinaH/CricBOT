@@ -21,12 +21,12 @@ import {
 } from "phosphor-react-native";
 import { auth, signOutUser } from "../../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { useRouter } from "expo-router"; // If you're using expo-router
+import { useRouter } from "expo-router"; 
 
 const Profile = () => {
   const [name, setName] = useState("");
   const [mail, setMail] = useState("");
-  const router = useRouter(); // If you're using expo-router
+  const router = useRouter(); 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -59,7 +59,7 @@ const Profile = () => {
             try {
               await signOutUser();
               Alert.alert("Success", "User signed out successfully");
-              router.replace("/sign-in"); // Redirect to sign-in page
+              router.replace("/sign-in"); 
             } catch (error) {
               Alert.alert("Error", error.message);
             }
