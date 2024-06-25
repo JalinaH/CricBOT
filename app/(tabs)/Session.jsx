@@ -14,6 +14,10 @@ import images from "../../constants/images";
 import { MinusCircle, PlusCircle } from "phosphor-react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { useRoute } from "@react-navigation/native";
+import { getAuth } from "firebase/auth";
+import { firestore } from "../../firebase/firebase";
+import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
+import { getCurrentDate } from "../../utils/dateUtils"; 
 
 const Session = () => {
   const route = useRoute();
@@ -25,6 +29,8 @@ const Session = () => {
   const [speed, setSpeed] = useState(70);
   const [balls, setBalls] = useState(10);
   const [ballWaitingTime, setBallWaitingTime] = useState(10);
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const items = [
     { label: "Random", value: "random", color: "black" },
@@ -60,7 +66,7 @@ const Session = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const increseSpeed = () => {
+  const increaseSpeed = () => {
     setSpeed((prevSpeed) =>
       prevSpeed + 10 <= 130 ? prevSpeed + 10 : prevSpeed
     );
@@ -72,7 +78,7 @@ const Session = () => {
     );
   };
 
-  const increseBalls = () => {
+  const increaseBalls = () => {
     setBalls((prevBalls) => (prevBalls + 1 <= 20 ? prevBalls + 1 : prevBalls));
   };
 
@@ -80,7 +86,7 @@ const Session = () => {
     setBalls((prevBalls) => (prevBalls - 1 >= 1 ? prevBalls - 1 : prevBalls));
   };
 
-  const increseBallWaitingTime = () => {
+  const increaseBallWaitingTime = () => {
     setBallWaitingTime((prevBallWaitingTime) =>
       prevBallWaitingTime + 1 <= 60
         ? prevBallWaitingTime + 5
@@ -96,11 +102,34 @@ const Session = () => {
     );
   };
 
-  const handlePress = () => {
+  const handlePress = async () => {
     if (selectedValue === "random") {
       Alert.alert(
         "This mode is still under development. Please select another mode."
       );
+    } else {
+      try {
+        if (user) {
+          const statsRef = doc(firestore, "PlayerStats", user.uid);
+          const currentDate = getCurrentDate();
+          const docSnap = await getDoc(statsRef);
+
+          if (docSnap.exists()) {
+            await updateDoc(statsRef, {
+              balls: arrayUnion({ date: currentDate, count: balls }),
+            });
+          } else {
+            await setDoc(statsRef, {
+              balls: [{ date: currentDate, count: balls }],
+            });
+          }
+
+          Alert.alert("Session data saved successfully.");
+        }
+      } catch (error) {
+        console.error("Error saving session data: ", error);
+        Alert.alert("Failed to save session data.");
+      }
     }
   };
 
@@ -156,7 +185,7 @@ const Session = () => {
                     {speed} KMH
                   </Text>
                 </View>
-                <TouchableOpacity onPress={increseSpeed}>
+                <TouchableOpacity onPress={increaseSpeed}>
                   <PlusCircle size={30} />
                 </TouchableOpacity>
               </View>
@@ -173,7 +202,7 @@ const Session = () => {
                     {balls} Balls
                   </Text>
                 </View>
-                <TouchableOpacity onPress={increseBalls}>
+                <TouchableOpacity onPress={increaseBalls}>
                   <PlusCircle size={30} />
                 </TouchableOpacity>
               </View>
@@ -192,7 +221,7 @@ const Session = () => {
                     {ballWaitingTime} sec
                   </Text>
                 </View>
-                <TouchableOpacity onPress={increseBallWaitingTime}>
+                <TouchableOpacity onPress={increaseBallWaitingTime}>
                   <PlusCircle size={30} />
                 </TouchableOpacity>
               </View>
@@ -200,48 +229,16 @@ const Session = () => {
 
             <TouchableOpacity onPress={handlePress}>
               <View className="bg-grey-200 rounded-3xl mt-10 p-2 w-[40%] mx-auto mb-2">
-                <Text className="font-psemibold text-white mx-auto">Play</Text>
+                <Text className="font-pbold text-white mx-auto pt-1 pb-1">
+                  Play
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
         </View>
-
-        <View>
-          <RNPickerSelect
-            onValueChange={(value) => setSelectedValue(value)}
-            items={items}
-            value={selectedValue}
-            style={pickerSelectStyles}
-            useNativeAndroidPickerStyle={false}
-          />
-        </View>
-
-        <StatusBar style="light" backgroundColor="#1C2120" />
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 5,
-    padding: 10,
-    margin: 10,
-    color: "black",
-  },
-  inputAndroid: {
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 5,
-    padding: 10,
-    margin: 10,
-    color: "black",
-    width: "80%",
-    marginHorizontal: "10%",
-    fontFamily: "Poppins-Regular",
-  },
-});
 
 export default Session;
