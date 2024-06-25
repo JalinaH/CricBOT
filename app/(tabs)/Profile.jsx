@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  StatusBar,
 } from "react-native";
 import {
   UserCircle,

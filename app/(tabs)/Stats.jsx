@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Dimensions } from "react-native";
+import { View, Text, ScrollView, Dimensions, StatusBar } from "react-native";
 import { LineChart, BarChart } from "react-native-chart-kit";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth, firestore } from "../../firebase/firebase";
