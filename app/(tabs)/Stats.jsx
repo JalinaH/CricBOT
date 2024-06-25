@@ -1,56 +1,49 @@
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Dimensions } from "react-native";
-import React from "react";
 import { LineChart, BarChart } from "react-native-chart-kit";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { auth, firestore } from "../../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const Stats = () => {
-  // Example data for the charts
-  const weeklyData = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43, 50],
-        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Black line color
-      },
-    ],
-  };
+  const [weeklyData, setWeeklyData] = useState([]);
+  const [monthlyData, setMonthlyData] = useState([]);
+  const [sixMonthsData, setSixMonthsData] = useState([]);
+  const screenWidth = Dimensions.get("window").width;
 
-  const monthlyData = {
-    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-    datasets: [
-      {
-        data: [200, 450, 280, 800],
-        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Black bar color
-      },
-    ],
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const statsRef = doc(firestore, "PlayerStats", user.uid);
+        const docSnap = await getDoc(statsRef);
 
-  const sixMonthsData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        data: [1200, 1450, 1280, 1800, 1300, 1500],
-        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Black line color
-      },
-    ],
-  };
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setWeeklyData(data.weekly);
+          setMonthlyData(data.monthly);
+          setSixMonthsData(data.sixMonths);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const chartConfig = {
     backgroundGradientFrom: "#FFFFFF",
     backgroundGradientFromOpacity: 0,
     backgroundGradientTo: "#FFFFFF",
     backgroundGradientToOpacity: 0,
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Black color for text and lines
-    strokeWidth: 2, // optional, default 3
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    strokeWidth: 2,
     barPercentage: 0.5,
-    useShadowColorFromDataset: false, // optional
+    useShadowColorFromDataset: false,
     propsForLabels: {
       fontSize: 12,
       fontWeight: "bold",
     },
   };
-
-  const screenWidth = Dimensions.get("window").width;
 
   return (
     <SafeAreaView>
@@ -63,35 +56,65 @@ const Stats = () => {
           <Text style={{ fontSize: 20, marginVertical: 10, color: "#000000" }}>
             Past Week
           </Text>
-          <LineChart
-            data={weeklyData}
-            width={screenWidth - 40}
-            height={220}
-            chartConfig={chartConfig}
-            style={{ marginVertical: 10 }}
-          />
+          {weeklyData.length > 0 && (
+            <LineChart
+              data={{
+                labels: weeklyData.map((_, index) => `Day ${index + 1}`),
+                datasets: [
+                  {
+                    data: weeklyData,
+                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  },
+                ],
+              }}
+              width={screenWidth - 40}
+              height={220}
+              chartConfig={chartConfig}
+              style={{ marginVertical: 10 }}
+            />
+          )}
 
           <Text style={{ fontSize: 20, marginVertical: 10, color: "#000000" }}>
             Past Month
           </Text>
-          <BarChart
-            data={monthlyData}
-            width={screenWidth - 40}
-            height={220}
-            chartConfig={chartConfig}
-            style={{ marginVertical: 10 }}
-          />
+          {monthlyData.length > 0 && (
+            <BarChart
+              data={{
+                labels: monthlyData.map((_, index) => `Week ${index + 1}`),
+                datasets: [
+                  {
+                    data: monthlyData,
+                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  },
+                ],
+              }}
+              width={screenWidth - 40}
+              height={220}
+              chartConfig={chartConfig}
+              style={{ marginVertical: 10 }}
+            />
+          )}
 
           <Text style={{ fontSize: 20, marginVertical: 10, color: "#000000" }}>
             Past Six Months
           </Text>
-          <LineChart
-            data={sixMonthsData}
-            width={screenWidth - 40}
-            height={220}
-            chartConfig={chartConfig}
-            style={{ marginVertical: 10 }}
-          />
+          {sixMonthsData.length > 0 && (
+            <LineChart
+              data={{
+                labels: sixMonthsData.map((_, index) => `Month ${index + 1}`),
+                datasets: [
+                  {
+                    data: sixMonthsData,
+                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  },
+                ],
+              }}
+              width={screenWidth - 40}
+              height={220}
+              chartConfig={chartConfig}
+              style={{ marginVertical: 10 }}
+            />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

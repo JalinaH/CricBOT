@@ -25,9 +25,19 @@ export default function Page() {
     });
 
     return unsubscribe;
-  });
+  }, []); 
 
-  if (!loading && isLogged) return <Redirect to="/Home" />;
+  if (loading) {
+    return (
+      <SafeAreaView className="bg-primary h-full flex justify-center items-center">
+        <Text className="text-white text-lg">Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  if (isLogged) {
+    return <Redirect to="/Home" />;
+  }
 
   return (
     <SafeAreaView className="bg-primary h-full">
