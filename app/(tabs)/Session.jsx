@@ -12,12 +12,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import images from "../../constants/images";
 import { MinusCircle, PlusCircle } from "phosphor-react-native";
-import RNPickerSelect from "react-native-picker-select";
 import { useRoute } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import { firestore } from "../../firebase/firebase";
-import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
-import { getCurrentDate } from "../../utils/dateUtils"; 
+import { doc, updateDoc, arrayUnion, getDoc, setDoc } from "firebase/firestore";
+import { getCurrentDate } from "../../utils/dateUtils";
 
 const Session = () => {
   const route = useRoute();
@@ -29,6 +28,8 @@ const Session = () => {
   const [speed, setSpeed] = useState(70);
   const [balls, setBalls] = useState(10);
   const [ballWaitingTime, setBallWaitingTime] = useState(10);
+  const [sessions, setSessions] = useState(0);
+  const [totalBalls, setTotalBalls] = useState(0);
   const auth = getAuth();
   const user = auth.currentUser;
 
@@ -65,6 +66,27 @@ const Session = () => {
     const intervalId = setInterval(checkConnection, 5000);
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        if (user) {
+          const statsRef = doc(firestore, "PlayerStats", user.uid);
+          const docSnap = await getDoc(statsRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            setSessions(data.sessions || 0);
+            setTotalBalls(data.totalBalls || 0);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching stats: ", error);
+      }
+    };
+
+    fetchStats();
+  }, [user]); // Make sure to include user as a dependency
 
   const increaseSpeed = () => {
     setSpeed((prevSpeed) =>
@@ -114,13 +136,20 @@ const Session = () => {
           const currentDate = getCurrentDate();
           const docSnap = await getDoc(statsRef);
 
+          setSessions((prevSessions) => prevSessions + 1);
+          setTotalBalls((prevTotalBalls) => prevTotalBalls + balls);
+
           if (docSnap.exists()) {
             await updateDoc(statsRef, {
               balls: arrayUnion({ date: currentDate, count: balls }),
+              sessions: sessions + 1,
+              totalBalls: totalBalls + balls,
             });
           } else {
             await setDoc(statsRef, {
               balls: [{ date: currentDate, count: balls }],
+              sessions: 1,
+              totalBalls: balls,
             });
           }
 
@@ -158,11 +187,11 @@ const Session = () => {
 
         <View className="mt-10 flex flex-row w-[100%] mx-auto">
           <View className="flex flex-col w-[33%] items-center">
-            <Text className="font-psemibold text-lg">2</Text>
+            <Text className="font-psemibold text-lg">{sessions}</Text>
             <Text className="text-grey-100">Sessions</Text>
           </View>
           <View className="flex flex-col w-[33%] items-center">
-            <Text className="font-psemibold text-lg">100</Text>
+            <Text className="font-psemibold text-lg">{totalBalls}</Text>
             <Text className="text-grey-100">Balls</Text>
           </View>
           <View className="flex flex-col w-[33%] items-center">
@@ -236,6 +265,8 @@ const Session = () => {
             </TouchableOpacity>
           </View>
         </View>
+
+        <StatusBar style="light" backgroundColor="#1C2120" />
       </ScrollView>
     </SafeAreaView>
   );
