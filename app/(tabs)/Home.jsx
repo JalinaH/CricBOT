@@ -66,25 +66,28 @@ const Home = ({ user }) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View>
-          <View className="flex flex-row items-center mt-3">
-            <Image
-              source={images.logo}
-              className="w-20 h-20 justify-center mt-5"
-              resizeMode="contain"
-            />
-            <View className="mt-7">
-              <Text className="text-xl font-psemibold">CricBOT</Text>
-              <Text className="text-lg font-plight">Smart Cricket Trainer</Text>
+          <View className="flex flex-row items-center mt-3 justify-between">
+            <View className="flex flex-row items-center">
+              <Image
+                source={images.logo}
+                className="w-20 h-20 justify-center mt-5"
+                resizeMode="contain"
+              />
+              <View className="mt-7">
+                <Text className="text-xl font-psemibold">CricBOT</Text>
+                <Text className="text-lg font-plight">
+                  Smart Cricket Trainer
+                </Text>
+              </View>
             </View>
+
             <Text
-              className="font-plight ml-10 mt-5"
+              className="font-plight mr-5 mt-5"
               style={{ color: isConnected ? "green" : "red" }}
             >
               {connectionStatus}
             </Text>
           </View>
-        </View>
 
         <View className="mt-10 flex flex-row w-[100%] mx-auto">
           <View className="flex flex-col w-[33%] items-center">

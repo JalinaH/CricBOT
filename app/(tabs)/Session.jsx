@@ -165,8 +165,8 @@ const Session = () => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View>
-          <View className="flex flex-row items-center mt-3">
+        <View className="flex flex-row items-center mt-3 justify-between">
+          <View className="flex flex-row items-center">
             <Image
               source={images.logo}
               className="w-20 h-20 justify-center mt-5"
@@ -176,13 +176,14 @@ const Session = () => {
               <Text className="text-xl font-psemibold">CricBOT</Text>
               <Text className="text-lg font-plight">Smart Cricket Trainer</Text>
             </View>
-            <Text
-              className="font-plight ml-10 mt-5"
-              style={{ color: isConnected ? "green" : "red" }}
-            >
-              {connectionStatus}
-            </Text>
           </View>
+
+          <Text
+            className="font-plight mr-5 mt-5"
+            style={{ color: isConnected ? "green" : "red" }}
+          >
+            {connectionStatus}
+          </Text>
         </View>
 
         <View className="mt-10 flex flex-row w-[100%] mx-auto">
