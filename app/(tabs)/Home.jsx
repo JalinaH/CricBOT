@@ -67,200 +67,135 @@ const Home = ({ user }) => {
     <SafeAreaView>
       <ScrollView>
         <View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 10,
-            }}
-          >
+          <View className="flex flex-row items-center mt-3">
             <Image
               source={images.logo}
-              style={{
-                width: 100,
-                height: 100,
-                justifyContent: "center",
-                marginTop: 10,
-              }}
+              className="w-20 h-20 justify-center mt-5"
               resizeMode="contain"
             />
-            <View style={{ marginTop: 15 }}>
-              <Text style={{ fontSize: 24, fontWeight: "600" }}>CricBOT</Text>
-              <Text style={{ fontSize: 18, fontWeight: "300" }}>
-                Smart Cricket Trainer
-              </Text>
+            <View className="mt-7">
+              <Text className="text-xl font-psemibold">CricBOT</Text>
+              <Text className="text-lg font-plight">Smart Cricket Trainer</Text>
             </View>
             <Text
-              style={{
-                fontWeight: "300",
-                marginLeft: 10,
-                marginTop: 10,
-                color: isConnected ? "green" : "red",
-              }}
+              className="font-plight ml-10 mt-5"
+              style={{ color: isConnected ? "green" : "red" }}
             >
               {connectionStatus}
             </Text>
           </View>
         </View>
 
-        <View
-          style={{ flexDirection: "row", width: "100%", marginVertical: 20 }}
-        >
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ fontWeight: "600", fontSize: 18 }}>{sessions}</Text>
-            <Text style={{ color: "#888888" }}>Sessions</Text>
+        <View className="mt-10 flex flex-row w-[100%] mx-auto">
+          <View className="flex flex-col w-[33%] items-center">
+            <Text className="font-psemibold text-lg">{sessions}</Text>
+            <Text className="text-grey-100">Sessions</Text>
           </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ fontWeight: "600", fontSize: 18 }}>
-              {totalBalls}
-            </Text>
-            <Text style={{ color: "#888888" }}>Balls</Text>
+          <View className="flex flex-col w-[33%] items-center">
+            <Text className="font-psemibold text-lg">{totalBalls}</Text>
+            <Text className="text-grey-100">Balls</Text>
           </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ fontWeight: "600", fontSize: 18 }}>160</Text>
-            <Text style={{ color: "#888888" }}>Minutes</Text>
+          <View className="flex flex-col w-[33%] items-center">
+            <Text className="font-psemibold text-lg">160</Text>
+            <Text className="text-grey-100">Minutes</Text>
           </View>
         </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginHorizontal: 20,
-            marginBottom: 10,
-          }}
-        >
-          <Text style={{ fontSize: 16, fontWeight: "500" }}>Quick Start</Text>
+        <View className="flex flex-row justify-between items-center mt-10 mx-5">
+          <Text className="font-psemibold text-[16px]">Quick Start</Text>
           <TouchableOpacity>
-            <Text style={{ fontSize: 16, fontWeight: "500" }}>Show All</Text>
+            <Text className="font-psemibold text-[16px]">Show All</Text>
           </TouchableOpacity>
         </View>
 
-        <View
-          style={{ flexDirection: "column", marginLeft: 20, marginTop: 10 }}
-        >
-          <View style={{ flexDirection: "row", marginVertical: 10 }}>
+        <View className="flex flex-col justify-center items-center mt-5 mx-5">
+          <View className="flex flex-row">
             <TouchableOpacity onPress={() => handlePress("Random")}>
               <Image
                 source={images.random}
-                style={{ width: 110, height: 110, marginRight: 10 }}
+                className="w-[104px] h-[110px] mr-2"
                 resizeMode="contain"
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handlePress("Bouncer Ball")}>
               <Image
                 source={images.bouncer}
-                style={{ width: 110, height: 110 }}
+                className="w-[110px] h-[110px] mr-2"
                 resizeMode="contain"
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handlePress("Yorker Ball")}>
               <Image
                 source={images.yorker}
-                style={{ width: 110, height: 110, marginLeft: 10 }}
+                className="w-[110px] h-[110px]"
                 resizeMode="contain"
               />
             </TouchableOpacity>
           </View>
 
-          <View style={{ flexDirection: "row", marginVertical: 10 }}>
+          <View className="flex flex-row mt-2">
             <TouchableOpacity onPress={() => handlePress("Fast Ball")}>
               <Image
                 source={images.fast}
-                style={{ width: 110, height: 110 }}
+                className="w-[110px] h-[110px] mr-2"
                 resizeMode="contain"
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handlePress("Slow Ball")}>
               <Image
                 source={images.slow}
-                style={{ width: 110, height: 110, marginLeft: 10 }}
+                className="w-[110px] h-[110px] mr-2"
                 resizeMode="contain"
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handlePress("Swing Ball")}>
               <Image
                 source={images.swing}
-                style={{ width: 110, height: 110, marginLeft: 10 }}
+                className="w-[110px] h-[110px]"
                 resizeMode="contain"
               />
             </TouchableOpacity>
           </View>
         </View>
 
-        <View style={{ marginLeft: 20, marginTop: 10 }}>
-          <Text style={{ fontSize: 16, fontWeight: "500" }}>LEVELS</Text>
-          <View
-            style={{
-              marginTop: 10,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
+        <View className="ml-5 mt-10">
+          <Text className="font-psemibold text-[16px]">LEVELS</Text>
+          <View className="flex flex-row items-center mt-5 mb-2">
             <Image
               source={images.beginner}
-              style={{ width: 70, height: 70, marginRight: 10 }}
+              className="w-[70px] h-[70px] mr-5"
               resizeMode="contain"
             />
             <View>
-              <Text style={{ fontWeight: "600", fontSize: 18 }}>
-                Beginner Plans
-              </Text>
-              <Text style={{ fontWeight: "300" }}>Recommend for first use</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginTop: 5,
-                }}
-              >
+              <Text className="font-psemibold text-lg">Beginner Plans</Text>
+              <Text className="font-plight">Recommend for first use</Text>
+              <View className="flex flex-row items-center">
                 <Image
                   source={icons.star}
-                  style={{ width: 15, height: 15 }}
+                  className="w-[15px] h-[15px] mr-1"
                   resizeMode="contain"
                 />
-                <Text style={{ fontWeight: "300", marginLeft: 5 }}>
-                  30 Sessions
-                </Text>
+                <Text className="font-plight text-sm">30 Sessions</Text>
               </View>
             </View>
           </View>
 
-          <View
-            style={{
-              marginTop: 10,
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 10,
-            }}
-          >
+          <View className="flex flex-row items-center mt-5 mb-5">
             <Image
               source={images.pro}
-              style={{ width: 70, height: 70, marginRight: 10 }}
+              className="w-[70px] h-[70px] mr-5"
               resizeMode="contain"
             />
             <View>
-              <Text style={{ fontWeight: "600", fontSize: 18 }}>
-                Advanced Plans
-              </Text>
-              <Text style={{ fontWeight: "300" }}>
-                Recommend for previous users
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginTop: 5,
-                }}
-              >
+              <Text className="font-psemibold text-lg">Advanced Plans</Text>
+              <Text className="font-plight">Recommend for previous users</Text>
+              <View className="flex flex-row items-center">
                 <Image
                   source={icons.star}
-                  style={{ width: 15, height: 15 }}
+                  className="w-[15px] h-[15px] mr-1"
                   resizeMode="contain"
                 />
-                <Text style={{ fontWeight: "300", marginLeft: 5 }}>
-                  Custom Sessions
-                </Text>
+                <Text className="font-plight text-sm">Custom Sessions</Text>
               </View>
             </View>
           </View>
