@@ -59,10 +59,10 @@ CricBot is a mobile application designed to control an automated cricket practic
   - Download the `google-services.json` (for Android) and `GoogleService-Info.plist` (for iOS) files and place them in the appropriate directories.
   - Copy your Firebase configuration and add it to your project.
 
-4. Run the application:
-   ``sh
+4. **Run the application:**
+   ```sh
    npx expo start
-  ``
+   ```
 
 ## Usage
 1. Authentication:
