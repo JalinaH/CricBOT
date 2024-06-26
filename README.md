@@ -94,4 +94,4 @@ CricBot is a mobile application designed to control an automated cricket practic
       - totalBalls: Total number of balls played.
 
 ## Contact 
-For any inquiries, please [contact](jalinahirushan2002@gmail.com).
+For any inquiries, please [contact](mailto:jalinahirushan2002@gmail.com).
