@@ -21,7 +21,6 @@ const Stats = () => {
             `PlayerStats/${user.uid}/balls`
           );
 
-          // Fetch data for today
           const todayQuery = query(
             statsRef,
             where("date", "==", getCurrentDate())
