@@ -16,12 +16,12 @@
       "supportsTablet": true
     },
     "android": {
-      "googleServicesFile": "./google-services.json",
+      "googleServicesFile": ".android/app/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.jalina.CricBOT"
+      "package": "com.cricbot"
     },
     "web": {
       "favicon": "./assets/favicon.png"
