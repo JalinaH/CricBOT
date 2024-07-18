@@ -1,4 +1,4 @@
-import { Link, Redirect, router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "../constants/images";
@@ -25,9 +25,19 @@ export default function Page() {
     });
 
     return unsubscribe;
-  });
+  }, []);
 
-  if (!loading && isLogged) return <Redirect to="/Home" />;
+  if (loading) {
+    return (
+      <SafeAreaView className="bg-primary h-full flex justify-center items-center">
+        <Text className="text-white text-lg">Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  if (isLogged) {
+    return <Redirect href="/Home" />;
+  }
 
   return (
     <SafeAreaView className="bg-primary h-full">

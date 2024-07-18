@@ -4,9 +4,12 @@ import {
   getAuth,
   initializeAuth,
   signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  getReactNativePersistence,
 } from "firebase/auth";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getFirestore } from "firebase/firestore";
+import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCKs2n1FnufuwChRbhvcdkeuuRaPYTh34c",
@@ -19,18 +22,25 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-initializeAuth(app);
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
+const firestore = getFirestore(app);
 
-const auth = getAuth();
-
-export async function createUser(email, password) {
+export async function createUser(username, email, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
+
     const user = userCredential.user;
+
+    await updateProfile(user, {
+      displayName: username,
+    });
+
     return user;
   } catch (error) {
     console.error("Error creating a user:", error);
@@ -53,4 +63,15 @@ export async function signIn(email, password) {
   }
 }
 
+export async function signOutUser() {
+  try {
+    await signOut(auth);
+    console.log("User signed out successfully");
+  } catch (error) {
+    console.error("Error signing out:", error);
+    throw error;
+  }
+}
+
+export { auth, firestore };
 export default app;
