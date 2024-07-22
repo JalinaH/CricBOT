@@ -6,13 +6,24 @@
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "userInterfaceStyle": "light",
-    "scheme": "your-app-scheme",
+    "scheme": "cricbot",
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "googleServicesFile": "./google-services.json",
-      "package": "com.cricbot"
+      "package": "com.cricbot",
+      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE", "ACCESS_WIFI_STATE"],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "versionCode": 1
+    },
+    "splash": {
+      "image": "./assets/images/pro.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
     "web": {
       "favicon": "./assets/images/logo.png"
@@ -22,6 +33,7 @@
       "@react-native-firebase/app",
       "@react-native-firebase/auth"
     ],
+    "assetBundlePatterns": ["**/*"],
     "extra": {
       "router": {
         "origin": false
