@@ -3,7 +3,7 @@ import { View, Text, ScrollView, Dimensions, StatusBar } from "react-native";
 import { LineChart, BarChart } from "react-native-chart-kit";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth, firestore } from "../../firebase/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 const Stats = () => {
   const [dailyData, setDailyData] = useState([]);
@@ -16,60 +16,72 @@ const Stats = () => {
       const user = auth.currentUser;
       if (user) {
         try {
-          const statsRef = collection(
-            firestore,
-            `PlayerStats/${user.uid}/balls`
-          );
+          const statsRef = doc(firestore, "PlayerStats", user.uid);
+          const statsSnapshot = await getDoc(statsRef);
 
-          const todayQuery = query(
-            statsRef,
-            where("date", "==", getCurrentDate())
-          );
-          const todaySnapshot = await getDocs(todayQuery);
-          const todayData = processData(todaySnapshot);
+          if (statsSnapshot.exists()) {
+            const userData = statsSnapshot.data();
+            const allData = processData(userData);
 
-          const pastWeekQuery = query(
-            statsRef,
-            where("date", ">=", getPastDate(7))
-          );
-          const pastWeekSnapshot = await getDocs(pastWeekQuery);
-          const pastWeekData = processData(pastWeekSnapshot);
+            const today = getCurrentDate();
+            const oneWeekAgo = getPastDate(7);
+            const oneMonthAgo = getPastDate(30);
 
-          const pastMonthQuery = query(
-            statsRef,
-            where("date", ">=", getPastDate(30))
-          );
-          const pastMonthSnapshot = await getDocs(pastMonthQuery);
-          const pastMonthData = processData(pastMonthSnapshot);
+            const todayData = allData.filter((item) => item.date === today);
+            const weekData = allData.filter(
+              (item) => item.date >= oneWeekAgo && item.date <= today
+            );
+            const monthData = allData.filter(
+              (item) => item.date >= oneMonthAgo && item.date <= today
+            );
 
-          setDailyData(todayData);
-          setWeeklyData(pastWeekData);
-          setMonthlyData(pastMonthData);
+            setDailyData(todayData.map((item) => item.count));
+            setWeeklyData(weekData.map((item) => item.count));
+            setMonthlyData(monthData.map((item) => item.count));
+          }
         } catch (error) {
           console.error("Error fetching data:", error);
         }
       }
     };
 
-    const processData = (snapshot) => {
-      const data = [];
-      snapshot.forEach((doc) => {
-        data.push(doc.data().count); 
-      });
-      return data;
+    const processData = (userData) => {
+      if (!userData || !userData.balls || !Array.isArray(userData.balls)) {
+        return [];
+      }
+      try {
+        const groupedData = userData.balls.reduce((acc, { date, count }) => {
+          if (!acc[date]) {
+            acc[date] = 0;
+          }
+          acc[date] += typeof count === "number" ? count : 0;
+          return acc;
+        }, {});
+
+        return Object.entries(groupedData)
+          .map(([date, count]) => ({ date, count }))
+          .sort((a, b) => a.date.localeCompare(b.date));
+      } catch (error) {
+        console.error("Error processing data:", error);
+        return [];
+      }
     };
 
     const getCurrentDate = () => {
       const today = new Date();
-      return `${today.getFullYear()}/${
-        today.getMonth() + 1
-      }/${today.getDate()}`;
+      return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}-${String(today.getDate()).padStart(2, "0")}`;
     };
 
     const getPastDate = (days) => {
       const date = new Date();
       date.setDate(date.getDate() - days);
-      return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}-${String(date.getDate()).padStart(2, "0")}`;
     };
 
     fetchData();
@@ -90,6 +102,16 @@ const Stats = () => {
     },
   };
 
+  const formatChartData = (data, labelPrefix) => ({
+    labels: data.map((_, index) => `${labelPrefix} ${index + 1}`),
+    datasets: [
+      {
+        data,
+        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+      },
+    ],
+  });
+
   return (
     <SafeAreaView>
       <ScrollView style={{ backgroundColor: "#FFFFFF" }}>
@@ -101,64 +123,46 @@ const Stats = () => {
           <Text style={{ fontSize: 20, marginVertical: 10, color: "#000000" }}>
             Today
           </Text>
-          {dailyData.length > 0 && (
+          {dailyData.length > 0 ? (
             <LineChart
-              data={{
-                labels: dailyData.map((_, index) => `Hour ${index + 1}`),
-                datasets: [
-                  {
-                    data: dailyData,
-                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                  },
-                ],
-              }}
+              data={formatChartData(dailyData, "Hour")}
               width={screenWidth - 40}
               height={220}
               chartConfig={chartConfig}
               style={{ marginVertical: 10 }}
             />
+          ) : (
+            <Text>No data available for today</Text>
           )}
 
           <Text style={{ fontSize: 20, marginVertical: 10, color: "#000000" }}>
             Past Week
           </Text>
-          {weeklyData.length > 0 && (
+          {weeklyData.length > 0 ? (
             <LineChart
-              data={{
-                labels: weeklyData.map((_, index) => `Day ${index + 1}`),
-                datasets: [
-                  {
-                    data: weeklyData,
-                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                  },
-                ],
-              }}
+              data={formatChartData(weeklyData, "Day")}
               width={screenWidth - 40}
               height={220}
               chartConfig={chartConfig}
               style={{ marginVertical: 10 }}
             />
+          ) : (
+            <Text>No data available for the past week</Text>
           )}
 
           <Text style={{ fontSize: 20, marginVertical: 10, color: "#000000" }}>
             Past Month
           </Text>
-          {monthlyData.length > 0 && (
+          {monthlyData.length > 0 ? (
             <BarChart
-              data={{
-                labels: monthlyData.map((_, index) => `Week ${index + 1}`),
-                datasets: [
-                  {
-                    data: monthlyData,
-                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                  },
-                ],
-              }}
+              data={formatChartData(monthlyData, "Week")}
               width={screenWidth - 40}
               height={220}
               chartConfig={chartConfig}
               style={{ marginVertical: 10 }}
             />
+          ) : (
+            <Text>No data available for the past month</Text>
           )}
         </View>
 
