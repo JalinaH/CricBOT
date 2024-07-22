@@ -4,11 +4,10 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  StyleSheet,
   Alert,
-  StatusBar,
   Image,
 } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { MinusCircle, PlusCircle } from "phosphor-react-native";
@@ -41,10 +40,16 @@ const Session = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const response = await fetch("http://192.168.126.73/status");
+        const response = await fetch("http://192.168.4.1/status");
         if (response.ok) {
-          setIsConnected(true);
-          setConnectionStatus("Connected");
+          const text = await response.text();
+          if (text === "OK") {
+            setIsConnected(true);
+            setConnectionStatus("Connected");
+          } else {
+            setIsConnected(false);
+            setConnectionStatus("Disconnected");
+          }
         } else {
           setIsConnected(false);
           setConnectionStatus("Disconnected");
@@ -52,8 +57,10 @@ const Session = () => {
       } catch (error) {
         setIsConnected(false);
         setConnectionStatus("Disconnected");
+        console.error("Connection error:", error);
       }
     };
+
     checkConnection();
 
     const intervalId = setInterval(checkConnection, 5000);
@@ -81,45 +88,48 @@ const Session = () => {
     fetchStats();
   }, [user]);
 
-  const increaseSpeed = () => {
-    setSpeed((prevSpeed) =>
-      prevSpeed + 10 <= 130 ? prevSpeed + 10 : prevSpeed
-    );
-  };
-
-  const decreaseSpeed = () => {
-    setSpeed((prevSpeed) =>
-      prevSpeed - 10 >= 50 ? prevSpeed - 10 : prevSpeed
-    );
-  };
-
-  const increaseBalls = () => {
-    setBalls((prevBalls) => (prevBalls + 1 <= 20 ? prevBalls + 1 : prevBalls));
-  };
-
-  const decreaseBalls = () => {
-    setBalls((prevBalls) => (prevBalls - 1 >= 1 ? prevBalls - 1 : prevBalls));
-  };
-
-  const increaseBallWaitingTime = () => {
-    setBallWaitingTime((prevTime) =>
-      prevTime + 5 <= 60 ? prevTime + 5 : prevTime
-    );
-  };
-
-  const decreaseBallWaitingTime = () => {
-    setBallWaitingTime((prevTime) =>
-      prevTime - 5 >= 10 ? prevTime - 5 : prevTime
-    );
-  };
+  const increaseSpeed = () =>
+    setSpeed((prevSpeed) => Math.min(prevSpeed + 10, 130));
+  const decreaseSpeed = () =>
+    setSpeed((prevSpeed) => Math.max(prevSpeed - 10, 50));
+  const increaseBalls = () =>
+    setBalls((prevBalls) => Math.min(prevBalls + 1, 20));
+  const decreaseBalls = () =>
+    setBalls((prevBalls) => Math.max(prevBalls - 1, 1));
+  const increaseBallWaitingTime = () =>
+    setBallWaitingTime((prevTime) => Math.min(prevTime + 5, 60));
+  const decreaseBallWaitingTime = () =>
+    setBallWaitingTime((prevTime) => Math.max(prevTime - 5, 10));
 
   const handlePress = async () => {
-    if (selectedValue === "random") {
+    if (!isConnected) {
       Alert.alert(
+        "Not Connected",
+        "Please connect to the CricBOT_Network Wi-Fi before starting a session.",
+        [{ text: "OK" }]
+      );
+      return;
+    }
+
+    if (selectedValue.toLowerCase() === "random") {
+      Alert.alert(
+        "Under Development",
         "This mode is still under development. Please select another mode."
       );
-    } else {
-      try {
+      return;
+    }
+
+    try {
+      // Send session data to ESP8266
+      const mode = selectedValue.toLowerCase();
+      const response = await fetch(
+        `http://10.10.19.179/start?mode=${mode}&balls=${balls}`
+      );
+
+      if (response.ok) {
+        Alert.alert("Session Started", "Machine started.");
+
+        // Save session data to Firestore
         if (user) {
           const statsRef = doc(firestore, "PlayerStats", user.uid);
           const currentDate = getCurrentDate();
@@ -144,14 +154,15 @@ const Session = () => {
 
           setSessions(newSessions);
           setTotalBalls(newTotalBalls);
-
-          Alert.alert("Session data saved successfully.");
-          navigation.goBack();
         }
-      } catch (error) {
-        console.error("Error saving session data: ", error);
-        Alert.alert("Failed to save session data.");
+
+        navigation.goBack();
+      } else {
+        throw new Error("Failed to start the machine");
       }
+    } catch (error) {
+      console.error("Error starting machine: ", error);
+      Alert.alert("Error", "Failed to start the machine.");
     }
   };
 
@@ -253,12 +264,20 @@ const Session = () => {
             <TouchableOpacity onPress={handlePress}>
               <View className="bg-grey-200 rounded-3xl mt-10 p-2 w-[40%] mx-auto mb-2">
                 <Text className="font-pbold text-white mx-auto pt-1 pb-1">
-                  Play
+                  {isConnected ? "Play" : "Connect"}
                 </Text>
               </View>
             </TouchableOpacity>
           </View>
         </View>
+
+        {!isConnected && (
+          <View className="mt-5 mx-5 p-3 bg-yellow-100 rounded-md">
+            <Text className="text-yellow-800">
+              Please connect to the CricBOT_Network Wi-Fi to use the app.
+            </Text>
+          </View>
+        )}
 
         <StatusBar style="light" backgroundColor="#1C2120" />
       </ScrollView>

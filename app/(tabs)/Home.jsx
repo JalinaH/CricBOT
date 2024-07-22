@@ -1,5 +1,12 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
@@ -21,10 +28,16 @@ const Home = ({ user }) => {
     useCallback(() => {
       const checkConnection = async () => {
         try {
-          const response = await fetch("http://192.168.1.14/status");
+          const response = await fetch("http://10.10.19.179/status");
           if (response.ok) {
-            setIsConnected(true);
-            setConnectionStatus("Connected");
+            const text = await response.text();
+            if (text === "OK") {
+              setIsConnected(true);
+              setConnectionStatus("Connected");
+            } else {
+              setIsConnected(false);
+              setConnectionStatus("Disconnected");
+            }
           } else {
             setIsConnected(false);
             setConnectionStatus("Disconnected");
@@ -32,6 +45,7 @@ const Home = ({ user }) => {
         } catch (error) {
           setIsConnected(false);
           setConnectionStatus("Disconnected");
+          console.error("Connection error:", error);
         }
       };
 
@@ -64,7 +78,15 @@ const Home = ({ user }) => {
   );
 
   const handlePress = (title) => {
-    navigation.navigate("Session", { title });
+    if (isConnected) {
+      navigation.navigate("Session", { title });
+    } else {
+      Alert.alert(
+        "Not Connected",
+        "Please connect to the CricBOT_Network Wi-Fi before starting a session.",
+        [{ text: "OK" }]
+      );
+    }
   };
 
   return (
