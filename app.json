@@ -33,9 +33,6 @@
       "@react-native-firebase/app",
       "@react-native-firebase/auth"
     ],
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
     "assetBundlePatterns": ["**/*"],
     "extra": {
       "router": {
