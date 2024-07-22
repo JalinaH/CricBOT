@@ -2,7 +2,7 @@
   "name": "cricbot",
   "version": "1.0.0",
   "main": "expo-router/entry",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
