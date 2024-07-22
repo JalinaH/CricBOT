@@ -12,7 +12,18 @@
     },
     "android": {
       "googleServicesFile": "./google-services.json",
-      "package": "com.cricbot"
+      "package": "com.cricbot",
+      "permissions": ["INTERNET"],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "versionCode": 1
+    },
+    "splash": {
+      "image": "./assets/images/pro.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
     "web": {
       "favicon": "./assets/images/logo.png"
@@ -22,6 +33,10 @@
       "@react-native-firebase/app",
       "@react-native-firebase/auth"
     ],
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
     "extra": {
       "router": {
         "origin": false

@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,20 +7,20 @@ import {
   StyleSheet,
   Alert,
   StatusBar,
+  Image,
 } from "react-native";
-import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image } from "react-native";
-import images from "../../constants/images";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { MinusCircle, PlusCircle } from "phosphor-react-native";
-import { useRoute } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import { firestore } from "../../firebase/firebase";
 import { doc, updateDoc, arrayUnion, getDoc, setDoc } from "firebase/firestore";
 import { getCurrentDate } from "../../utils/dateUtils";
+import images from "../../constants/images";
 
 const Session = () => {
   const route = useRoute();
+  const navigation = useNavigation();
   const { title } = route.params || { title: "Random" };
 
   const [isConnected, setIsConnected] = useState(false);
@@ -32,14 +33,6 @@ const Session = () => {
   const [totalBalls, setTotalBalls] = useState(0);
   const auth = getAuth();
   const user = auth.currentUser;
-
-  const items = [
-    { label: "Random", value: "random", color: "black" },
-    { label: "Bouncer Ball", value: "bouncer" },
-    { label: "Yorker Ball", value: "yorker" },
-    { label: "Fast Ball", value: "fast" },
-    { label: "Slow Ball", value: "slow" },
-  ];
 
   useEffect(() => {
     setSelectedValue(title);
@@ -86,7 +79,7 @@ const Session = () => {
     };
 
     fetchStats();
-  }, [user]); // Make sure to include user as a dependency
+  }, [user]);
 
   const increaseSpeed = () => {
     setSpeed((prevSpeed) =>
@@ -109,18 +102,14 @@ const Session = () => {
   };
 
   const increaseBallWaitingTime = () => {
-    setBallWaitingTime((prevBallWaitingTime) =>
-      prevBallWaitingTime + 1 <= 60
-        ? prevBallWaitingTime + 5
-        : prevBallWaitingTime
+    setBallWaitingTime((prevTime) =>
+      prevTime + 5 <= 60 ? prevTime + 5 : prevTime
     );
   };
 
   const decreaseBallWaitingTime = () => {
-    setBallWaitingTime((prevBallWaitingTime) =>
-      prevBallWaitingTime - 1 >= 10
-        ? prevBallWaitingTime - 5
-        : prevBallWaitingTime
+    setBallWaitingTime((prevTime) =>
+      prevTime - 5 >= 10 ? prevTime - 5 : prevTime
     );
   };
 
@@ -136,14 +125,14 @@ const Session = () => {
           const currentDate = getCurrentDate();
           const docSnap = await getDoc(statsRef);
 
-          setSessions((prevSessions) => prevSessions + 1);
-          setTotalBalls((prevTotalBalls) => prevTotalBalls + balls);
+          const newSessions = sessions + 1;
+          const newTotalBalls = totalBalls + balls;
 
           if (docSnap.exists()) {
             await updateDoc(statsRef, {
               balls: arrayUnion({ date: currentDate, count: balls }),
-              sessions: sessions + 1,
-              totalBalls: totalBalls + balls,
+              sessions: newSessions,
+              totalBalls: newTotalBalls,
             });
           } else {
             await setDoc(statsRef, {
@@ -153,7 +142,11 @@ const Session = () => {
             });
           }
 
+          setSessions(newSessions);
+          setTotalBalls(newTotalBalls);
+
           Alert.alert("Session data saved successfully.");
+          navigation.goBack();
         }
       } catch (error) {
         console.error("Error saving session data: ", error);
