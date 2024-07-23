@@ -20,11 +20,6 @@
       },
       "versionCode": 1
     },
-    "splash": {
-      "image": "./assets/images/pro.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "web": {
       "favicon": "./assets/images/logo.png"
     },

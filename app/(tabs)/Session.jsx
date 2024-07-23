@@ -40,7 +40,7 @@ const Session = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const response = await fetch("http://192.168.4.1/status");
+        const response = await fetch("http://192.168.216.73/status");
         if (response.ok) {
           const text = await response.text();
           if (text === "OK") {
@@ -123,7 +123,7 @@ const Session = () => {
       // Send session data to ESP8266
       const mode = selectedValue.toLowerCase();
       const response = await fetch(
-        `http://10.10.19.179/start?mode=${mode}&balls=${balls}`
+        `http://192.168.216.73/start?mode=${mode}&balls=${balls}`
       );
 
       if (response.ok) {

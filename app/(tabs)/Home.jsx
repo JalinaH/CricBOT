@@ -28,7 +28,7 @@ const Home = ({ user }) => {
     useCallback(() => {
       const checkConnection = async () => {
         try {
-          const response = await fetch("http://10.10.19.179/status");
+          const response = await fetch("http://192.168.216.73/status");
           if (response.ok) {
             const text = await response.text();
             if (text === "OK") {
