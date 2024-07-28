@@ -21,60 +21,88 @@ const Home = ({ user }) => {
   const [sessions, setSessions] = useState(0);
   const [totalBalls, setTotalBalls] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasConnected, setHasConnected] = useState(false);
 
   const navigation = useNavigation();
 
-  useFocusEffect(
-    useCallback(() => {
-      const checkConnection = async () => {
-        try {
-          const response = await fetch("http://192.168.216.73/status");
-          if (response.ok) {
-            const text = await response.text();
-            if (text === "OK") {
-              setIsConnected(true);
-              setConnectionStatus("Connected");
+  const checkConnection = useCallback(async () => {
+    try {
+      console.log("Checking connection...");
+      const response = await fetch("http://192.168.216.73/status");
+      if (response.ok) {
+        const text = await response.text();
+        console.log("Status response:", text);
+        if (text === "OK") {
+          setIsConnected(true);
+          setConnectionStatus("Connected");
+          console.log("Connection established");
+
+          if (!hasConnected) {
+            console.log("Sending CONNECT command...");
+            const connectResponse = await fetch(
+              "http://192.168.216.73/connect"
+            );
+            if (connectResponse.ok) {
+              const connectText = await connectResponse.text();
+              console.log("CONNECT command response:", connectText);
+              setHasConnected(true);
             } else {
-              setIsConnected(false);
-              setConnectionStatus("Disconnected");
+              console.error(
+                "Failed to send CONNECT command, status:",
+                connectResponse.status
+              );
+              const errorText = await connectResponse.text();
+              console.error("Error details:", errorText);
             }
-          } else {
-            setIsConnected(false);
-            setConnectionStatus("Disconnected");
           }
-        } catch (error) {
+        } else {
           setIsConnected(false);
           setConnectionStatus("Disconnected");
-          console.error("Connection error:", error);
+          setHasConnected(false);
+          console.log("Unexpected status response");
         }
-      };
+      } else {
+        setIsConnected(false);
+        setConnectionStatus("Disconnected");
+        setHasConnected(false);
+        console.log("Status check failed, status:", response.status);
+      }
+    } catch (error) {
+      setIsConnected(false);
+      setConnectionStatus("Disconnected");
+      setHasConnected(false);
+      console.error("Connection error:", error);
+    }
+  }, [hasConnected]);
 
-      const fetchStats = async () => {
-        setIsLoading(true);
-        try {
-          if (user) {
-            const statsRef = doc(firestore, "PlayerStats", user.uid);
-            const docSnap = await getDoc(statsRef);
+  const fetchStats = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      if (user) {
+        const statsRef = doc(firestore, "PlayerStats", user.uid);
+        const docSnap = await getDoc(statsRef);
 
-            if (docSnap.exists()) {
-              const data = docSnap.data();
-              setSessions(data.sessions || 0);
-              setTotalBalls(data.totalBalls || 0);
-            }
-          }
-        } catch (error) {
-          console.error("Error fetching stats: ", error);
-        } finally {
-          setIsLoading(false);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setSessions(data.sessions || 0);
+          setTotalBalls(data.totalBalls || 0);
         }
-      };
+      }
+    } catch (error) {
+      console.error("Error fetching stats: ", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user]);
 
+  useFocusEffect(
+    useCallback(() => {
       checkConnection();
       fetchStats();
 
       const intervalId = setInterval(checkConnection, 5000);
       return () => clearInterval(intervalId);
-    }, [user])
+    }, [checkConnection, fetchStats])
   );
 
   const handlePress = (title) => {

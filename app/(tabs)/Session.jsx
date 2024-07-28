@@ -30,6 +30,8 @@ const Session = () => {
   const [ballWaitingTime, setBallWaitingTime] = useState(10);
   const [sessions, setSessions] = useState(0);
   const [totalBalls, setTotalBalls] = useState(0);
+  const [hasConnected, setHasConnected] = useState(false);
+
   const auth = getAuth();
   const user = auth.currentUser;
 
@@ -40,23 +42,51 @@ const Session = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
+        console.log("Checking connection...");
         const response = await fetch("http://192.168.216.73/status");
         if (response.ok) {
           const text = await response.text();
+          console.log("Status response:", text);
           if (text === "OK") {
             setIsConnected(true);
             setConnectionStatus("Connected");
+            console.log("Connection established");
+
+            // Only send CONNECT command if we haven't connected before
+            if (!hasConnected) {
+              console.log("Sending CONNECT command...");
+              const connectResponse = await fetch(
+                "http://192.168.216.73/connect"
+              );
+              if (connectResponse.ok) {
+                const connectText = await connectResponse.text();
+                console.log("CONNECT command response:", connectText);
+                setHasConnected(true);
+              } else {
+                console.error(
+                  "Failed to send CONNECT command, status:",
+                  connectResponse.status
+                );
+                const errorText = await connectResponse.text();
+                console.error("Error details:", errorText);
+              }
+            }
           } else {
             setIsConnected(false);
             setConnectionStatus("Disconnected");
+            setHasConnected(false);
+            console.log("Unexpected status response");
           }
         } else {
           setIsConnected(false);
           setConnectionStatus("Disconnected");
+          setHasConnected(false);
+          console.log("Status check failed, status:", response.status);
         }
       } catch (error) {
         setIsConnected(false);
         setConnectionStatus("Disconnected");
+        setHasConnected(false);
         console.error("Connection error:", error);
       }
     };
@@ -123,7 +153,7 @@ const Session = () => {
       // Send session data to ESP8266
       const mode = selectedValue.toLowerCase();
       const response = await fetch(
-        `http://192.168.216.73/start?mode=${mode}&balls=${balls}`
+        `http://192.168.216.73/start?mode=${mode}&balls=${balls}&delay=${ballWaitingTime}`
       );
 
       if (response.ok) {
